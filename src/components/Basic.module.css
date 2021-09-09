@@ -1,0 +1,72 @@
+.form{
+    padding: 10px;
+}
+
+.inputForm{
+    margin-bottom: 20px;
+}
+.control{
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputForm label{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.inputForm input{
+    width: 19rem;
+    height: 2.5rem;
+    border:1px solid rgba(99, 95, 95, 0.219);
+    border-radius: 3px;
+}
+
+.btn{
+    text-align: end;
+    margin-top: 2rem;
+}
+
+.btn button{
+    padding: 10px 30px;
+    background-color: grey;
+    border-radius: 6px;
+    color:black;
+    border: none;
+    font-size: 1.3rem;
+    cursor: not-allowed;
+}
+
+
+
+.valid-button button{
+    background-color: rgb(26, 4, 155);
+    color: white;
+    cursor: pointer;
+}
+
+.valid-button button:hover{
+background-color: blue;
+}
+
+.inputForm input:focus{
+outline: none;
+border-color: black;
+background-color: rgba(32, 42, 184, 0.137);
+}
+
+.changefirstName input{
+    border-color:red;
+    background-color: rgba(250, 3, 3, 0.247);
+}
+
+.changefirstName input:focus{
+    background-color:#fbe8d2;
+    border-color: red
+}
+
+
+.invalid{
+    color:red
+}
+
