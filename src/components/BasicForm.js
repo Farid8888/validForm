@@ -1,119 +1,90 @@
 import classes from './Basic.module.css'
 import {useState,useRef} from 'react'
-
+import FormValid from '../hook/formvalid'
 
 const BasicForm =()=>{
-const [firstname,setFirstName] =useState('')    
-const [firstNameValid,setFirstNameValid] = useState(false)
-const [lastName,setLastName] = useState('')
-const [lastNameValid,setLastNameValid] = useState(false)
-const [email,setEmail] = useState('')
-const [emailValid,setEmailValid] = useState(false)
-const [formValid,setFormValid] = useState(false)
+const nameValidate = (value)=> value.trim().length > 0
+const emailValidate =(value)=> value.includes('@')
+   const {
+     inputChange:firstNameChange,
+     blurChange:firstNameBlur,
+     reset:firstNameReset,
+     error:firstNameError,
+     value:firstNameValue,
+     touched:firstNameTouched
+   } = FormValid(nameValidate)
 
-const onChangeFirstName =(event)=>{
-setFirstName(event.target.value)
-}
+   const {
+    inputChange:lastNameChange,
+    blurChange:lastNameBlur,
+    reset:lastNameReset,
+    error:lastNameError,
+    value:lastNameValue,
+    touched:lastNameTouched
+  } = FormValid(nameValidate)
 
-let classesfirstName
-let content
-classesfirstName = firstNameValid ? `${classes.inputForm} ${classes.changefirstName}` : classes.inputForm
- content = firstNameValid  ? <p className={classes.invalid}>Please enter the first name</p> : ''
-
-
-if(firstname.length > 0){
-    content = ''
-    classesfirstName = classes.inputForm
-}
-
-
-const onBlurFirstName =()=>{
-    if(firstname.length>0){
-        setFirstNameValid(false)
-    }else{
-        setFirstNameValid(true)
-    }
-    
-}
+  const {
+    inputChange:emailChange,
+    blurChange:emailNameBlur,
+    reset:emailReset,
+    error:emailError,
+    value:emailValue,
+    touched:emailTouched
+  } = FormValid(emailValidate)
 
 
-const onChangeLastName =(event)=>{
-    setLastName(event.target.value)
-    }
 
-
+let classesFirstName 
+classesFirstName = firstNameError ? `${classes.inputForm} ${classes.changefirstName}` : classes.inputForm
 let classesLastName
-let content2
-classesLastName = lastNameValid ? `${classes.inputForm} ${classes.changefirstName}` : classes.inputForm
- content2 = lastNameValid  ? <p className={classes.invalid}>Please enter the first name</p> : ''
+classesLastName = lastNameError ? `${classes.inputForm} ${classes.changefirstName}` : classes.inputForm
+let classesEmail
+classesEmail = emailError ?  `${classes.inputForm} ${classes.changefirstName}` : classes.inputForm
 
 
-if(lastName.length > 0){
-    content2 = ''
-    classesLastName = classes.inputForm
-}
 
 
-const onBlurLastName =()=>{
-    if(lastName.length>0){
-        setLastNameValid(false)
-    }else{
-        setLastNameValid(true)
-    }
-    
-}
+
+const firstNameValid = nameValidate(firstNameValue)
+const lastNameValid = nameValidate(lastNameValue)
+const emailValid = emailValidate(emailValue)
 
 
-const onChangeEmailName =(event)=>{
-    setEmail(event.target.value)
-    }
-
-
-let classesEmailName
-let content3
-classesEmailName = emailValid ? `${classes.inputForm} ${classes.changefirstName}` : classes.inputForm
- content3 = emailValid  ? <p className={classes.invalid}>Please enter the first name</p> : ''
-
-
-if(email.length > 0){
-    content3 = ''
-    classesEmailName = classes.inputForm
-}
-
-
-const onBlurEmailName =()=>{
-    if(email.length>0){
-        setEmailValid(false)
-    }else{
-        setEmailValid(true)
-    }
-    
-}
 let classesButton =classes.btn
-if(firstname.trim().length>0 && lastName.trim().length>0 && email.trim().length>0){
+if(firstNameValid && lastNameValid && emailValid){
     classesButton =  `${classes.btn} ${classes['valid-button']}`
 }
 
 
+const validate = firstNameValue && lastNameValid && emailValid
+const onSubmitHandler =(event)=>{
+event.preventDefault()
+if(!validate){
+    return
+}
+firstNameReset()
+lastNameReset()
+emailReset()
+}
 
     return(
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={onSubmitHandler}>
           <div className={classes.control}>
-          <div className={classesfirstName}>
+          <div className={classesFirstName}>
               <label>First Name</label>
-              <input type='text' onChange={onChangeFirstName}  onBlur={onBlurFirstName}/>
-              {content}
+              <input type='text' value={firstNameValue} onChange={firstNameChange}  onBlur={firstNameBlur}/>
+              {firstNameError ? <p className={classes.invalid}>Please enter the first name</p> : ''}
           </div>
           <div className={classesLastName}>
               <label>Last Name</label>
-              <input type='text' onChange ={onChangeLastName} onBlur={onBlurLastName}/>
-              {content2}
+              <input type='text' value={lastNameValue} onChange ={lastNameChange} onBlur={lastNameBlur}/>
+              {lastNameError ? <p className={classes.invalid}>Please enter the first name</p> : ''}
           </div>
           </div>
-          <div className={classesEmailName}>
+          <div className={classesEmail}>
               <label>E-Mail Address</label>
-              <input type='email' onChange={onChangeEmailName} onBlur={onBlurEmailName}/>
-              {content3}
+              <input type='email' value={emailValue} onChange={emailChange} onBlur={emailNameBlur}/>
+              {emailError ? <p className={classes.invalid}>Please enter the first name</p> : ''}
           </div>
           <div className={classesButton}>
               <button type='submit'>Submit</button>
